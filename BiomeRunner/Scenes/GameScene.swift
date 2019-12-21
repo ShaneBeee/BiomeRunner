@@ -7,34 +7,63 @@
 //
 
 import SpriteKit
-import GameplayKit
+
+enum GameState {
+    case READY, ONGOING, PAUSED, FINISHED
+}
 
 class GameScene: SKScene {
     
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
+    var mapNope: SKNode!
+    var tileMap: SKTileMapNode!
+    
+    var player: Player!
     
     override func didMove(to view: SKView) {
+        //physicsWorld.contactDelegate = self
+        physicsWorld.gravity = CGVector(dx: 0.0, dy: -6.0)
         
-        // Get label node from scene and store it for use later
-        self.label = self.childNode(withName: "//helloLabel") as? SKLabelNode
-        if let label = self.label {
-            label.alpha = 0.0
-            label.run(SKAction.fadeIn(withDuration: 2.0))
+        physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: frame.minX, y: frame.minY), to: CGPoint(x: frame.maxX, y: frame.minY))
+        physicsBody!.categoryBitMask = GameConstants.PhysicsCategories.frameCategory
+        physicsBody!.contactTestBitMask = GameConstants.PhysicsCategories.playerCategory
+        load(level: "World_0")
+    }
+    
+    func load(level: String) {
+        if let levelNode = SKNode.unarchiveFromFile(file: level) {
+            mapNope = levelNode
+            //worldLayer.addChild(mapNope)
+            loadTileMap()
         }
-        
-        // Create shape node to use during mouse interaction
-        let w = (self.size.width + self.size.height) * 0.05
-        self.spinnyNode = SKShapeNode.init(rectOf: CGSize.init(width: w, height: w), cornerRadius: w * 0.3)
-        
-        if let spinnyNode = self.spinnyNode {
-            spinnyNode.lineWidth = 2.5
-            
-            spinnyNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(Double.pi), duration: 1)))
-            spinnyNode.run(SKAction.sequence([SKAction.wait(forDuration: 0.5),
-                                              SKAction.fadeOut(withDuration: 0.5),
-                                              SKAction.removeFromParent()]))
+    }
+    
+    func loadTileMap() {
+        if let groundTiles = mapNope.childNode(withName: GameConstants.StringConstants.groundTilesName) as? SKTileMapNode {
+            tileMap = groundTiles
+            tileMap.scale(to: frame.size, width: false, multiplier: 1.0)
+            PhysicsHelper.addPhysicsBody(to: tileMap, and: "ground")
+            for child in groundTiles.children {
+                if let sprite = child as? SKSpriteNode, sprite.name != nil {
+                    ObjectHelper.handleChild(sprite: sprite, with: sprite.name!)
+                }
+            }
         }
+        addPlayer()
+    }
+    
+    func addPlayer() {
+        player = Player(imageNamed: GameConstants.StringConstants.playerImageName)
+        player.scale(to: frame.size, width: false, multiplier: 0.1)
+        player.name = GameConstants.StringConstants.playerName
+        PhysicsHelper.addPhysicsBody(to: player, with: player.name!)
+        player.position = CGPoint(x: frame.midX / 2.0, y: frame.midY)
+        player.zPosition = GameConstants.ZPositions.playerZ
+        player.loadTextures()
+        player.state = .IDLE
+        addChild(player)
+        //addPlayerActions()
     }
     
     

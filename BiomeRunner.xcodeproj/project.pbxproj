@@ -7,20 +7,35 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		347196FB23AE21F900D0C745 /* PhysicsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347196FA23AE21F900D0C745 /* PhysicsHelper.swift */; };
+		347196FE23AE23B300D0C745 /* SKNode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347196FD23AE23B300D0C745 /* SKNode+Extensions.swift */; };
+		3471970023AE24EC00D0C745 /* AnimationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347196FF23AE24EC00D0C745 /* AnimationHelper.swift */; };
+		3471970223AE258800D0C745 /* ParticleHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3471970123AE258700D0C745 /* ParticleHelper.swift */; };
+		3471970423AE280900D0C745 /* GroundNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3471970323AE280900D0C745 /* GroundNode.swift */; };
+		3471970623AE298300D0C745 /* ObjectHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3471970523AE298300D0C745 /* ObjectHelper.swift */; };
 		3473B31823ADFED900F202CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3473B31723ADFED900F202CF /* AppDelegate.swift */; };
-		3473B31A23ADFED900F202CF /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3473B31923ADFED900F202CF /* GameScene.sks */; };
+		3473B31A23ADFED900F202CF /* World_0.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3473B31923ADFED900F202CF /* World_0.sks */; };
 		3473B31C23ADFED900F202CF /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3473B31B23ADFED900F202CF /* Actions.sks */; };
 		3473B31E23ADFED900F202CF /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3473B31D23ADFED900F202CF /* GameScene.swift */; };
 		3473B32023ADFED900F202CF /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3473B31F23ADFED900F202CF /* GameViewController.swift */; };
 		3473B32323ADFED900F202CF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3473B32123ADFED900F202CF /* Main.storyboard */; };
 		3473B32523ADFEDB00F202CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3473B32423ADFEDB00F202CF /* Assets.xcassets */; };
 		3473B32823ADFEDB00F202CF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3473B32623ADFEDB00F202CF /* LaunchScreen.storyboard */; };
+		3473B33123ADFEF300F202CF /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3473B33023ADFEF300F202CF /* Player.swift */; };
+		3473B33423AE012C00F202CF /* GroundTiles.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3473B33323AE012C00F202CF /* GroundTiles.sks */; };
+		3473B33C23AE1D4900F202CF /* GameConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3473B33B23AE1D4900F202CF /* GameConstants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		347196FA23AE21F900D0C745 /* PhysicsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicsHelper.swift; sourceTree = "<group>"; };
+		347196FD23AE23B300D0C745 /* SKNode+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKNode+Extensions.swift"; sourceTree = "<group>"; };
+		347196FF23AE24EC00D0C745 /* AnimationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationHelper.swift; sourceTree = "<group>"; };
+		3471970123AE258700D0C745 /* ParticleHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticleHelper.swift; sourceTree = "<group>"; };
+		3471970323AE280900D0C745 /* GroundNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroundNode.swift; sourceTree = "<group>"; };
+		3471970523AE298300D0C745 /* ObjectHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectHelper.swift; sourceTree = "<group>"; };
 		3473B31423ADFED900F202CF /* BiomeRunner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BiomeRunner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3473B31723ADFED900F202CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		3473B31923ADFED900F202CF /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		3473B31923ADFED900F202CF /* World_0.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = World_0.sks; sourceTree = "<group>"; };
 		3473B31B23ADFED900F202CF /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		3473B31D23ADFED900F202CF /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		3473B31F23ADFED900F202CF /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
@@ -28,6 +43,9 @@
 		3473B32423ADFEDB00F202CF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3473B32723ADFEDB00F202CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3473B32923ADFEDB00F202CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3473B33023ADFEF300F202CF /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		3473B33323AE012C00F202CF /* GroundTiles.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GroundTiles.sks; sourceTree = "<group>"; };
+		3473B33B23AE1D4900F202CF /* GameConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameConstants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +59,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		347196FC23AE239D00D0C745 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				347196FD23AE23B300D0C745 /* SKNode+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		3473B30B23ADFED900F202CF = {
 			isa = PBXGroup;
 			children = (
@@ -60,17 +86,90 @@
 		3473B31623ADFED900F202CF /* BiomeRunner */ = {
 			isa = PBXGroup;
 			children = (
-				3473B31723ADFED900F202CF /* AppDelegate.swift */,
-				3473B31923ADFED900F202CF /* GameScene.sks */,
-				3473B31B23ADFED900F202CF /* Actions.sks */,
-				3473B31D23ADFED900F202CF /* GameScene.swift */,
-				3473B31F23ADFED900F202CF /* GameViewController.swift */,
-				3473B32123ADFED900F202CF /* Main.storyboard */,
 				3473B32423ADFEDB00F202CF /* Assets.xcassets */,
-				3473B32623ADFEDB00F202CF /* LaunchScreen.storyboard */,
+				3473B33923AE0CEB00F202CF /* Controller */,
+				3473B32F23ADFEE800F202CF /* Entity */,
+				347196FC23AE239D00D0C745 /* Extensions */,
+				3473B33623AE07FE00F202CF /* Helper */,
+				3473B33823AE0C9C00F202CF /* Scenes */,
+				3473B33723AE09FF00F202CF /* Storyboard */,
+				3473B33A23AE1D3200F202CF /* Template */,
+				3473B33223AE011500F202CF /* Tile */,
+				3473B33523AE070400F202CF /* World */,
+				3473B31723ADFED900F202CF /* AppDelegate.swift */,
+				3473B31B23ADFED900F202CF /* Actions.sks */,
 				3473B32923ADFEDB00F202CF /* Info.plist */,
 			);
 			path = BiomeRunner;
+			sourceTree = "<group>";
+		};
+		3473B32F23ADFEE800F202CF /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				3473B33023ADFEF300F202CF /* Player.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		3473B33223AE011500F202CF /* Tile */ = {
+			isa = PBXGroup;
+			children = (
+				3473B33323AE012C00F202CF /* GroundTiles.sks */,
+			);
+			path = Tile;
+			sourceTree = "<group>";
+		};
+		3473B33523AE070400F202CF /* World */ = {
+			isa = PBXGroup;
+			children = (
+				3473B31923ADFED900F202CF /* World_0.sks */,
+			);
+			path = World;
+			sourceTree = "<group>";
+		};
+		3473B33623AE07FE00F202CF /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				347196FA23AE21F900D0C745 /* PhysicsHelper.swift */,
+				347196FF23AE24EC00D0C745 /* AnimationHelper.swift */,
+				3471970123AE258700D0C745 /* ParticleHelper.swift */,
+				3471970323AE280900D0C745 /* GroundNode.swift */,
+				3471970523AE298300D0C745 /* ObjectHelper.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
+		3473B33723AE09FF00F202CF /* Storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				3473B32123ADFED900F202CF /* Main.storyboard */,
+				3473B32623ADFEDB00F202CF /* LaunchScreen.storyboard */,
+			);
+			path = Storyboard;
+			sourceTree = "<group>";
+		};
+		3473B33823AE0C9C00F202CF /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				3473B31D23ADFED900F202CF /* GameScene.swift */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		3473B33923AE0CEB00F202CF /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				3473B31F23ADFED900F202CF /* GameViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		3473B33A23AE1D3200F202CF /* Template */ = {
+			isa = PBXGroup;
+			children = (
+				3473B33B23AE1D4900F202CF /* GameConstants.swift */,
+			);
+			path = Template;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -132,7 +231,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				3473B32323ADFED900F202CF /* Main.storyboard in Resources */,
-				3473B31A23ADFED900F202CF /* GameScene.sks in Resources */,
+				3473B31A23ADFED900F202CF /* World_0.sks in Resources */,
+				3473B33423AE012C00F202CF /* GroundTiles.sks in Resources */,
 				3473B32523ADFEDB00F202CF /* Assets.xcassets in Resources */,
 				3473B32823ADFEDB00F202CF /* LaunchScreen.storyboard in Resources */,
 				3473B31C23ADFED900F202CF /* Actions.sks in Resources */,
@@ -146,9 +246,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3471970023AE24EC00D0C745 /* AnimationHelper.swift in Sources */,
+				347196FE23AE23B300D0C745 /* SKNode+Extensions.swift in Sources */,
+				3473B33123ADFEF300F202CF /* Player.swift in Sources */,
 				3473B31E23ADFED900F202CF /* GameScene.swift in Sources */,
+				3471970623AE298300D0C745 /* ObjectHelper.swift in Sources */,
 				3473B32023ADFED900F202CF /* GameViewController.swift in Sources */,
 				3473B31823ADFED900F202CF /* AppDelegate.swift in Sources */,
+				3473B33C23AE1D4900F202CF /* GameConstants.swift in Sources */,
+				3471970223AE258800D0C745 /* ParticleHelper.swift in Sources */,
+				3471970423AE280900D0C745 /* GroundNode.swift in Sources */,
+				347196FB23AE21F900D0C745 /* PhysicsHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
