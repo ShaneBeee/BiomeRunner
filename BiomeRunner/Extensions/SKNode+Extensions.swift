@@ -15,9 +15,8 @@ extension SKNode {
             let url = URL(fileURLWithPath: path)
             do {
                 let sceneData = try Data(contentsOf: url, options: .mappedIfSafe)
-                //let archiver = NSKeyedUnarchiver(forReadingWith: sceneData) //<-- deprecated (replace with forReadingFrom)
                 let archiver = try NSKeyedUnarchiver(forReadingFrom: sceneData)
-                archiver.requiresSecureCoding = false // helps with deprecated thing?!?! (found in help section on Udemy)
+                archiver.requiresSecureCoding = false
                 archiver.setClass(self.classForKeyedUnarchiver(), forClassName: "SKScene")
                 let scene = archiver.decodeObject(forKey: NSKeyedArchiveRootObjectKey) as! SKNode
                 archiver.finishDecoding()

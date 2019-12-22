@@ -8,28 +8,50 @@
 
 import UIKit
 import SpriteKit
-import GameplayKit
 
 class GameViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //presentMenuScene()
+        presentGameScene(for: 1, in: 0)
+    }
+    
+
+}
+
+extension GameViewController: SceneManagerDelegate {
+    
+    func presentMenuScene() {
+        let scene = MenuScene(size: view.bounds.size)
+        scene.scaleMode = .aspectFill
+        scene.sceneManagerDelegate = self
+        present(scene: scene)
+    }
+    
+    func presentLevelScene(for world: Int) {
+    }
+    
+    func presentGameScene(for level: Int, in world: Int) {
+        //let scene = GameScene(size: view.bounds.size, sceneManagerDelegate: self)
+        let scene = GameScene(size: view.bounds.size, world: world, sceneManagerDelegate: self)
+        
+        //scene.scaleMode = .aspectFill
+        present(scene: scene)
+        
+    }
+    
+    func present(scene: SKScene) {
         if let view = self.view as! SKView? {
-            // Load the SKScene from 'GameScene.sks'
-            if let scene = SKScene(fileNamed: "World_0") {
-                // Set the scale mode to scale to fit the window
-                scene.scaleMode = .aspectFill
-                
-                // Present the scene
-                view.presentScene(scene)
-            }
+            view.presentScene(scene)
+            
             
             view.ignoresSiblingOrder = true
-            
             view.showsFPS = true
             view.showsNodeCount = true
+            view.showsPhysics = true
         }
     }
-
+    
 }
