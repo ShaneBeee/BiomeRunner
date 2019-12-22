@@ -28,6 +28,7 @@
 		34B1A7DA23AF02F700F01C98 /* SceneManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B1A7D923AF02F700F01C98 /* SceneManagerDelegate.swift */; };
 		34B1A7DC23AF11D600F01C98 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B1A7DB23AF11D600F01C98 /* MenuScene.swift */; };
 		34B1A7DE23AF126500F01C98 /* SpriteKitButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B1A7DD23AF126500F01C98 /* SpriteKitButton.swift */; };
+		34CEA63023AF847900677EE9 /* Controls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CEA62F23AF847900677EE9 /* Controls.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		34B1A7D923AF02F700F01C98 /* SceneManagerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneManagerDelegate.swift; sourceTree = "<group>"; };
 		34B1A7DB23AF11D600F01C98 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		34B1A7DD23AF126500F01C98 /* SpriteKitButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteKitButton.swift; sourceTree = "<group>"; };
+		34CEA62F23AF847900677EE9 /* Controls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Controls.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,6 +181,7 @@
 			isa = PBXGroup;
 			children = (
 				3473B31F23ADFED900F202CF /* GameViewController.swift */,
+				34CEA62F23AF847900677EE9 /* Controls.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -287,6 +290,7 @@
 				34B1A7DE23AF126500F01C98 /* SpriteKitButton.swift in Sources */,
 				3471970223AE258800D0C745 /* ParticleHelper.swift in Sources */,
 				3471970423AE280900D0C745 /* GroundNode.swift in Sources */,
+				34CEA63023AF847900677EE9 /* Controls.swift in Sources */,
 				347196FB23AE21F900D0C745 /* PhysicsHelper.swift in Sources */,
 				34B1A7DA23AF02F700F01C98 /* SceneManagerDelegate.swift in Sources */,
 			);

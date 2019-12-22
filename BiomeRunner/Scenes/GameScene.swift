@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import GameController
 
 enum GameState {
     case READY, ONGOING, PAUSED, FINISHED
@@ -48,7 +49,7 @@ class GameScene: SKScene {
         physicsBody!.contactTestBitMask = GameConstants.PhysicsCategories.playerCategory
         createLayers()
         isPaused = true
-        isPaused = false
+        observeGameController()
     }
     
     func createLayers() {
@@ -94,7 +95,7 @@ class GameScene: SKScene {
         player.loadTextures()
         player.state = .IDLE
         addChild(player)
-        //addPlayerActions()
+        addPlayerActions()
     }
     
     override func didSimulatePhysics() {
@@ -104,6 +105,105 @@ class GameScene: SKScene {
                 let playerY = player.position.y - player.size.height / 3
                 groundNode.isBodyActivated = playerY > groundY
             }
+        }
+    }
+    
+    func addPlayerActions() {
+        let up = SKAction.moveBy(x: 0.0, y: frame.size.height / 4, duration: 0.4)
+        up.timingMode = .easeOut
+        
+        player.createUserData(entry: up, forKey: GameConstants.StringConstants.jumpUpActionKey)
+        
+        let move = SKAction.moveBy(x: 0.0, y: player.size.height, duration: 0.4)
+        let jump = SKAction.animate(with: player.jumpFrames, timePerFrame: 0.4 / Double(player.jumpFrames.count))
+        let group = SKAction.group([move, jump])
+        
+        player.createUserData(entry: group, forKey: GameConstants.StringConstants.brakeDescendActionKey)
+        
+        let right = SKAction.repeatForever(SKAction.moveBy(x: 100.0, y: 0.0, duration: 0.4))
+        player.createUserData(entry: right, forKey: GameConstants.StringConstants.moveRightActionKey)
+        
+        let left = SKAction.repeatForever(SKAction.moveBy(x: -100.0, y: 0.0, duration: 0.4))
+        player.createUserData(entry: left, forKey: GameConstants.StringConstants.moveLeftActionKey)
+    }
+    
+    func jump() {
+        // If player is airborne make them brake
+        if (player.airborne) {
+            brakeDescend()
+        } else {
+            player.airborne = true
+            player.turnGravity(on: false)
+            player.run(player.userData?.value(forKey: GameConstants.StringConstants.jumpUpActionKey) as! SKAction) {
+                self.player.turnGravity(on: true)
+            }
+        }
+    }
+    
+    func moveForwardTest(direction: Float) {
+        
+        if (direction != 0) {
+            if (player.airborne || player.state == .RUNNING) {
+                return
+            }
+            player.state = .RUNNING
+            //player.run(SKAction.repeatForever(SKAction.moveBy(x: CGFloat(direction * 100.0), y: 0, duration: 0.4)), withKey: "Running")
+            player.run(direction > 0 ? player.userData?.value(forKey: GameConstants.StringConstants.moveRightActionKey) as! SKAction : player.userData?.value(forKey: GameConstants.StringConstants.moveLeftActionKey) as! SKAction, withKey: "Running")
+            
+        
+        } else {
+            player.state = .IDLE
+            player.removeAction(forKey: "Running")
+        }
+    }
+    
+    func brakeDescend() {
+        if (!brake) {
+            brake = true
+            player.physicsBody?.velocity.dy = 0.0
+            
+            player.run(player.userData?.value(forKey: GameConstants.StringConstants.brakeDescendActionKey) as! SKAction)
+        }
+    }
+    
+    // --- CONTROLLER STUFF ---
+    
+    // Function to run intially to lookout for any MFI or Remote Controllers in the area
+    func observeGameController() {
+        NotificationCenter.default.addObserver(self, selector: #selector(connectControllers), name: NSNotification.Name.GCControllerDidConnect, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(disconnectControllers), name: NSNotification.Name.GCControllerDidDisconnect, object: nil)
+    }
+    
+    // This Function is called when a controller is connected to the Apple TV
+    @objc func connectControllers() {
+        //Unpause the Game if it is currently paused
+        self.isPaused = false
+        //Used to register the Nimbus Controllers to a specific Player Number
+        var indexNumber = 0
+        // Run through each controller currently connected to the system
+        for controller in GCController.controllers() {
+            //Check to see whether it is an extended Game Controller (Such as a Nimbus)
+            if controller.extendedGamepad != nil {
+                controller.playerIndex = GCControllerPlayerIndex.init(rawValue: indexNumber)!
+                indexNumber += 1
+                setupControllerControls(controller: controller)
+            }
+        }
+    }
+    
+    // Function called when a controller is disconnected from the Apple TV
+    @objc func disconnectControllers() {
+        // Pause the Game if a controller is disconnected ~ This is mandated by Apple
+        self.isPaused = true
+    }
+    
+    // Function called to setup controllers
+    func setupControllerControls(controller: GCController) {
+        //Function that check the controller when anything is moved or pressed on it
+        controller.extendedGamepad?.valueChangedHandler = {
+            (gamepad: GCExtendedGamepad, element: GCControllerElement) in
+            // Add movement in here for sprites of the controllers
+            self.controllerInputDetected(gamepad: gamepad, element: element, index: controller.playerIndex.rawValue)
         }
     }
     
