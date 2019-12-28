@@ -21,6 +21,7 @@ struct GameConstants {
         static let enemyCategory: UInt32 = 0x1 << 4
         static let frameCategory: UInt32 = 0x1 << 5
         static let ceilingCategory: UInt32 = 0x1 << 6
+        static let solidCategory: UInt32 = 0x1 << 7
     }
     
     struct ZPositions {

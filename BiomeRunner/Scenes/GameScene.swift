@@ -29,6 +29,25 @@ class GameScene: SKScene {
     var world: Int
     var levelKey: String
     
+    var gameState = GameState.ONGOING {
+        willSet {
+            switch newValue {
+                case .READY:
+                    player.state = .IDLE
+                    pauseEnemies(bool: false)
+                case .ONGOING:
+                    player.state = .RUNNING
+                    pauseEnemies(bool: false)
+                case .PAUSED:
+                    player.state = .IDLE
+                    pauseEnemies(bool: true)
+                case .FINISHED:
+                    player.state = .IDLE
+                    pauseEnemies(bool: true)
+            }
+        }
+    }
+    
     init(size: CGSize, world: Int, sceneManagerDelegate: SceneManagerDelegate) {
         self.world = world
         self.levelKey = "World_\(world)"
@@ -58,9 +77,7 @@ class GameScene: SKScene {
         addChild(worldLayer)
         worldLayer.layerVelocity = CGPoint(x: -200.0, y: 0.0)
         
-        load(level: levelKey) // TODO this is just a test on hold
-        //load(level: "World_0")
-        
+        load(level: levelKey)
     }
     
     func load(level: String) {
@@ -76,6 +93,7 @@ class GameScene: SKScene {
             tileMap = groundTiles
             tileMap.scale(to: frame.size, width: false, multiplier: 1.0)
             PhysicsHelper.addPhysicsBody(to: tileMap, and: "ground")
+            PhysicsHelper.addSolidPhysicsBody(to: tileMap)
             for child in groundTiles.children {
                 if let sprite = child as? SKSpriteNode, sprite.name != nil {
                     ObjectHelper.handleChild(sprite: sprite, with: sprite.name!)
@@ -109,7 +127,8 @@ class GameScene: SKScene {
     }
     
     func addPlayerActions() {
-        let up = SKAction.moveBy(x: 0.0, y: frame.size.height / 4, duration: 0.4)
+        //let up = SKAction.moveBy(x: 0.0, y: frame.size.height / 10, duration: 0.4)
+        let up = SKAction.moveBy(x: 0.0, y: player.size.height, duration: 0.4)
         up.timingMode = .easeOut
         
         player.createUserData(entry: up, forKey: GameConstants.StringConstants.jumpUpActionKey)
@@ -120,40 +139,45 @@ class GameScene: SKScene {
         
         player.createUserData(entry: group, forKey: GameConstants.StringConstants.brakeDescendActionKey)
         
-        let right = SKAction.repeatForever(SKAction.moveBy(x: 100.0, y: 0.0, duration: 0.4))
+        let right = SKAction.repeatForever(SKAction.moveBy(x: 120.0, y: 0.0, duration: 0.4))
         player.createUserData(entry: right, forKey: GameConstants.StringConstants.moveRightActionKey)
         
-        let left = SKAction.repeatForever(SKAction.moveBy(x: -100.0, y: 0.0, duration: 0.4))
+        let left = SKAction.repeatForever(SKAction.moveBy(x: -120.0, y: 0.0, duration: 0.4))
         player.createUserData(entry: left, forKey: GameConstants.StringConstants.moveLeftActionKey)
     }
     
     func jump() {
-        // If player is airborne make them brake
-        if (player.airborne) {
-            brakeDescend()
-        } else {
-            player.airborne = true
-            player.turnGravity(on: false)
-            player.run(player.userData?.value(forKey: GameConstants.StringConstants.jumpUpActionKey) as! SKAction) {
-                self.player.turnGravity(on: true)
+        if (gameState == .ONGOING) {
+            // If player is airborne make them brake
+            if (player.airborne) {
+                brakeDescend()
+            } else {
+                player.airborne = true
+                player.turnGravity(on: false)
+                player.run(player.userData?.value(forKey: GameConstants.StringConstants.jumpUpActionKey) as! SKAction) {
+                    self.player.turnGravity(on: true)
+                }
             }
         }
     }
     
-    func moveForwardTest(direction: Float) {
-        
-        if (direction != 0) {
-            if (player.airborne || player.state == .RUNNING) {
-                return
+    func move(direction: Float) {
+        if (gameState == .ONGOING) {
+            // Move left or right
+            if (direction != 0) {
+                if (player.airborne || player.state == .RUNNING) {
+                    return
+                }
+                player.state = .RUNNING
+                //player.run(SKAction.repeatForever(SKAction.moveBy(x: CGFloat(direction * 100.0), y: 0, duration: 0.4)), withKey: "Running")
+                player.run(direction > 0 ? player.userData?.value(forKey: GameConstants.StringConstants.moveRightActionKey) as! SKAction : player.userData?.value(forKey: GameConstants.StringConstants.moveLeftActionKey) as! SKAction, withKey: "Running")
+                player.xScale = abs(player.xScale) * (direction > 0 ? 1 : -1)
+                
+            // Stop movement
+            } else {
+                player.state = .IDLE
+                player.removeAction(forKey: "Running")
             }
-            player.state = .RUNNING
-            //player.run(SKAction.repeatForever(SKAction.moveBy(x: CGFloat(direction * 100.0), y: 0, duration: 0.4)), withKey: "Running")
-            player.run(direction > 0 ? player.userData?.value(forKey: GameConstants.StringConstants.moveRightActionKey) as! SKAction : player.userData?.value(forKey: GameConstants.StringConstants.moveLeftActionKey) as! SKAction, withKey: "Running")
-            
-        
-        } else {
-            player.state = .IDLE
-            player.removeAction(forKey: "Running")
         }
     }
     
@@ -163,6 +187,39 @@ class GameScene: SKScene {
             player.physicsBody?.velocity.dy = 0.0
             
             player.run(player.userData?.value(forKey: GameConstants.StringConstants.brakeDescendActionKey) as! SKAction)
+        }
+    }
+    
+    func handleEnemyContact() {
+        if (!player.invincible) {
+            die(reason: 0)
+        }
+    }
+    
+    func die(reason: Int) {
+        gameState = .FINISHED
+        player.turnGravity(on: false)
+        let deathAnimation: SKAction!
+        switch reason {
+            case 0:
+                deathAnimation = SKAction.animate(with: player.dieFrames, timePerFrame: 0.1, resize: true, restore: true)
+            case 1:
+                let up = SKAction.moveTo(y: frame.midY / 2, duration: 0.25)
+                let wait = SKAction.wait(forDuration: 0.1)
+                let down = SKAction.moveTo(y: -player.size.height, duration: 0.2)
+                deathAnimation = SKAction.sequence([up, wait, down])
+            default:
+                deathAnimation = SKAction.animate(with: player.dieFrames, timePerFrame: 0.1, resize: true, restore: true)
+        }
+        player.run(deathAnimation) {
+            self.player.removeFromParent()
+            //self.createAndShowPopup(type: 1, title: GameConstants.StringConstants.failedKey)
+        }
+    }
+    
+    func pauseEnemies(bool: Bool) {
+        for enemy in tileMap[GameConstants.StringConstants.enemyName] {
+            enemy.isPaused = bool
         }
     }
     
@@ -217,16 +274,20 @@ extension GameScene: SKPhysicsContactDelegate {
         switch contactMask {
             case GameConstants.PhysicsCategories.playerCategory | GameConstants.PhysicsCategories.groundCategory:
                 player.airborne = false
+                player.turnGravity(on: true)
+                brake = false
+            case GameConstants.PhysicsCategories.playerCategory | GameConstants.PhysicsCategories.solidCategory:
+                player.airborne = false
+                player.turnGravity(on: true)
                 brake = false
             case GameConstants.PhysicsCategories.playerCategory | GameConstants.PhysicsCategories.finishedCategory:
                 //finishGame()
                 break
             case GameConstants.PhysicsCategories.playerCategory | GameConstants.PhysicsCategories.enemyCategory:
-                //handleEnemyContact()
-                break
+                handleEnemyContact()
             case GameConstants.PhysicsCategories.playerCategory | GameConstants.PhysicsCategories.frameCategory:
                 physicsBody = nil
-                //die(reason: 1)
+                die(reason: 1)
             case GameConstants.PhysicsCategories.playerCategory | GameConstants.PhysicsCategories.collectibleCategory:
                 //let collectible = contact.bodyA.node?.name == player.name ? contact.bodyB.node as! SKSpriteNode : contact.bodyA.node as! SKSpriteNode
                 break
@@ -242,7 +303,8 @@ extension GameScene: SKPhysicsContactDelegate {
         
         switch contactMask {
             case GameConstants.PhysicsCategories.playerCategory | GameConstants.PhysicsCategories.groundCategory:
-                player.airborne = true
+                //player.airborne = true
+                player.turnGravity(on: true)
             default:
                 break
         }

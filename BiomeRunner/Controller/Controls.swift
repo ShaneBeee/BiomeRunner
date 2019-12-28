@@ -17,16 +17,16 @@ extension GameScene {
         // Left Thumbstick
         if (gamepad.leftThumbstick == element) {
             if (gamepad.leftThumbstick.xAxis.value != 0) {
-                print("Controller: \(index), LeftThumbstickXAxis: \(gamepad.leftThumbstick.xAxis.value)")
+                //print("Controller: \(index), LeftThumbstickXAxis: \(gamepad.leftThumbstick.xAxis.value)")
                 if (gamepad.leftThumbstick.xAxis.value > 0) {
-                    moveForwardTest(direction: 1)
+                    move(direction: 1)
                 } else {
-                    moveForwardTest(direction: -1)
+                    move(direction: -1)
                 }
             }
             else if (gamepad.leftThumbstick.xAxis.value == 0) {
                 // YOU CAN PUT CODE HERE TO STOP YOUR PLAYER FROM MOVING
-                moveForwardTest(direction: 0)
+                move(direction: 0)
             }
         }
         // Right Thumbstick
